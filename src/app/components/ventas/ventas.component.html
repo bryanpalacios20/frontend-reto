@@ -1,0 +1,69 @@
+<link rel="stylesheet" [href]="sanitizer.bypassSecurityTrustResourceUrl(cssUrl)">
+<section class="mt-2">
+  <h1 style="text-align: center;">VENTAS</h1>
+  <div class="container">
+    <div class="my-3" style="display: flex;justify-content: end;gap:8px; align-items: center;">
+      <div class="form-date">
+        <input class="form-date__input" type="date" id="input-date" name="input-date-start" [(ngModel)]="fechaEscogida">
+      </div>
+      <button class="btn btn-primary" (click)="buscarVentasPorFecha()">Buscar</button>
+    </div>
+    <div class="">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Cliente</th>
+            <th scope="col">Fecha</th>
+            <th scope="col">Total</th>
+            <th scope="col">Ver detalle</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let v of ventas">
+            <th scope="row">{{v.venta.cliente.nombres}}</th>
+            <td>{{v.venta.fecha}}</td>
+            <td>{{v.producto.precio * v.cantidad}}</td>
+            <td><button type="button" class="btn btn-success"data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="verDetalle(v.venta.id)">verDetalle</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="p-2" style="border: 2px solid #000;" *ngIf="isLoading">
+      <h4>Detalle de venta</h4>
+      <div class="mt-4" style="display:flex;gap:15px; flex-wrap: wrap; justify-content: center;">
+        <span><b>Nombres:</b> {{clienteSeleccionado.nombres}} </span>
+        <span><b>Apellidos:</b> {{clienteSeleccionado.apellido}} </span>
+        <span><b>DNI:</b> {{clienteSeleccionado.dni}} </span>
+        <span><b>Telefono:</b> {{clienteSeleccionado.telefono}} </span>
+        <span><b>Email:</b> {{clienteSeleccionado.email}} </span>
+      </div>
+      <div class="mt-2">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">Producto</th>
+              <th scope="col">Precio unitario</th>
+              <th scope="col">Cantidad</th>
+              <th scope="col">Subtotal</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let v of ventas">
+              <th scope="row">{{v.producto.nombre}}</th>
+              <td>{{v.producto.precio}}</td>
+              <td>{{v.cantidad}}</td>
+              <td>{{v.producto.precio * v.cantidad}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="flex gap-2">
+        <span><b>Fecha:</b> {{fecha}} </span>
+        <span><b>Total:</b> {{total}}</span>
+      </div>
+    </div>
+  </div>
+
+</section>
+
